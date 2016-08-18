@@ -15,3 +15,7 @@ Do takich danych niewątpliwie należą dane przestrzenne. Przechowują one info
 * odbiorniki GPS
 * zdjęcia satelitarne i lotnicze
 * pomiary geodezyjne, stacje pomiarowe i wywiady terenowe
+
+
+## Python i dane przestrzenne
+Znaczna część aplikacji wykorzystujących dane przestrzenne napisana została w języku Python. Taki wybór podyktowany został możliwościami jakie daje ten język programowania. Po pierwsze pozwala korzystać za darmo praktycznie ze wszystkich bibliotek związanych z danymi przestrzennymi w szczególności z *GDAL/OGR*. Dodatkowo ułatwia prace na danych rastrowych dzięki bibliotece *numpy*. Graficzna biblioteka *PyQt* pozwala budować interfejsy graficzne, które mogą być dołączane jako nakładki do istniejących już aplikacji przestrzennych (np. QGis) i przenoszone między systemami operacyjnymi bez potrzeby modyfikacji ich kodu. 
