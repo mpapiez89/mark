@@ -56,6 +56,19 @@ W podanych przykładach korzystaliśmy z danych rastrowych i wektorowych które 
 * USGS [7]
 * ESA/Sentinel [8]
 
+## Wizualizacja danych
+
+Odczyt danych i ich analiza to jednak nie wszystko. Aby nasza aplikacja miała możliwość podglądu danych potrzebujemy bibliotekę graficzną. O ile z wyświetleniem rastrów nie mamy problemów – możemy do ich wyświetlenia użyć dowolnej graficznej biblioteki Pythona np. *PyQt*. O tyle z wektorami jest już problem. Podobnie jak w przypadku rastrów możemy skorzystać z gotowych komponentów graficznych wbudowanych w bibliotekę PyQt np. QPainter do rysowania obiektów. Niestety rozwiązanie to ma jedna wadę – nie jest efektywne dla obiektów mających powyżej tysiąca wierzchołków. Wyświetlenie konturu jednego województwa zajmuje ułamki sekund, niestety wyświetlenie całej mapy Polski z konturami województw zajmuje już kilkanaście sekund. Z pomocą przychodzą biblioteki dedykowane do wizualizacji danych wektorowych. Jedną z nich jest *matplotlib* wraz z rozszerzeniem *Basemap*. Jest on odpowiednikiem znanego z Matlaba narzędzia zwanego Mapping Toolbox. Jego główną zaletą jest to że sam dokonuje odwzorowania kartograficznego czyli transformacji współrzędnych geograficznych na współrzędne rysunku. Po drugie zawiera sporo funkcji ułatwiających rysowanie danych przestrzennych m.in. rysowanie równoleżników, południków, rysowane i wygładzanie granic i wybrzeży. Minusem jest jednak słabo opisana dokumentacja.
+
+## Odwzorowanie kartograficzne a co to takiego ?
+
+## Pozostałe biblioteki 
+
+Wspomniane *GDAL/OGR* nie jest jedyną biblioteką wspomagającą przetwarzanie danych przestrzennych. Obecnie dostępnych darmowo mamy kilkanaście bibliotek, szczególnie do manipulacji danymi wektorowymi. Z nich najbardziej znane to Fiona i Shapely. Obie są typowymi bibliotekami Pythona które pozwalają na odczyt danych wektorowych, tworzenie nowych geometrii, sprawdzanie poprawności geometrii oraz wszelkiego rodzaju operacje geometryczne. Wybór odpowiedniej biblioteki jest w znacznym stopniu zależny od stopnia zaawansowania operacji które będą wykonywane w pisanej aplikacji. Pod tym względem niewątpliwie liderem jest GDAL/OGR, który dostarcza najwięcej gotowych funkcjonalności. Niemniej GDAL/OGR może być problematyczny ze względu na fakt że jego struktura oparta jest na C++. Fiona i Shapely opierają się na standardach Pythona m.in. korzystając z plików, słowników czy iteratorów co jest znacznie wygodniejsze poprzez zmniejszenie ilości pisanego kodu.
+
+_KOD_
+
+
 
 ## Źródła
 * [1] Strona GDAL z listą wszystkich operacji http://www.gdal.org/gdal_utilities.html
@@ -66,3 +79,10 @@ W podanych przykładach korzystaliśmy z danych rastrowych i wektorowych które 
 * [6] OpenStreetMap http://download.geofabrik.de/
 * [7] USGS http://earthexplorer.usgs.gov/
 * [8] ESA/Sentinel https://scihub.copernicus.eu/dhus/#/home
+* [9] Systemy GIS http://wazniak.mimuw.edu.pl/images/9/9a/Systemy_mobilne_wyklad_8.pdf
+* [10] Dane przestrzenne http://www.igik.edu.pl/pl/a/Dane-przestrzenne-def
+* [11] Wykorzystanie języka Python w GIS http://gis-support.pl/wykorzystanie-jezyka-programowania-python-w-quantum-gis/
+
+
+
+
