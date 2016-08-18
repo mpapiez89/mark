@@ -26,9 +26,43 @@ GDAL (*Geospatial Data Abstraction Library*) jest biblioteką rozwijaną przez f
 
 Aby rozpocząć przygodę z GDAL pierwszym krokiem jaki należy wykonać jest sprawdzenie czy nie posiadamy zainstalowanej wersji GDAL. Oczywiście nasuwa się nam pytanie – dlaczego mam sprawdzać skoro nigdy go nie instalowałem.  Warto jednak wiedzieć że GDAL z racji swojej dużej użyteczności i popularności jest często instalowany razem z innymi programami (Google Earth, QGis, ArcGIS). Dla tych którzy jednak nie posiadają GDAL odsyłam na stronę [2] na której krok po kroku wytłumaczone zostało jak zainstalować bibliotekę różnymi metodami. 
 
-Zacznijmy od najprostszego przykładu prezentującego w jaki sposób następuje odczyt danych rastrowych. 
+Zacznijmy od najprostszego przykładu prezentującego w jaki sposób następuje odczyt danych rastrowych.
+_KOD_
+
+Z modułu GDAL należy wywołać metodę *Open* ze ścieżką dostępu jako parametrem (najlepiej w postaci bezwzględnej). Metoda zwraca całego rastra (*Dataset*) w przypadku prawidłowego odczytania rastra. Mając wczytanego rastra pierwszą rzeczą której możemy dokonać jest sprawdzenie takich wartości jak ilość kanałów (*RasterCount*), ilość wierszy (*RasterXSize*), ilość kolumn (*RasterYSize*) z których składa się raster. Możemy również sprawdzić georeferencję rastra czyli jego położenie w przestrzeni. 
+
+_KOD_
+
+Teraz spróbujmy otworzyć plik wektorowy. Przed otwarciem pliku ustawiamy sterownik (*Driver*), który jest obiektem odpowiadającym za poprawne wczytanie odpowiedniego typu danych. Ważne jest również by przy pierwszym otwarciu pliku ustawić prawa dla sterownika, w zależności od tego czy chcemy odczytywać czy zapisywać dane. Domyślnym prawem jest prawo do odczytu oznaczane zerem. Jedynka oznacza możliwość modyfikacji pliku i jego ponownego zapisu. Nie wszystkie wspierane przez OGR formaty posiadają opcję zapisu. Metoda Open zwraca obiekt zwany źródłem danych (*DataSource*).
+
+_KOD_
+
+Źródło danych składa się z warstw które pobieramy za pomocą funkcji *GetLayer*. Najbardziej podstawowy format wektorowy Shapefile posiada tylko jedną warstwę dlatego użycie indeksu jest opcjonalne. Przy pozostałych formatach ustawienie indeksu jest obowiązkowe. W celu sprawdzenia ilości warstw możemy wywołać funkcję *GetLayerCount*. 
+
+_KOD_
+
+Po pobraniu warstwy jesteśmy w stanie odczytać podstawowe informacje o obiektach w niej zawartej. Możemy sprawdzić z ilu obiektów składa się warstwa (*GetFeatureCount*) oraz sprawdzić zasięg warstwy podany we współrzędnych geograficznych (GetExtent). Najważniejsze jednak jest to że możemy pobrać każdy obiekt po to by móc odczytać jego geometrię, nazwę oraz wartości jakie w sobie przechowuje. 
+Jak widzimy odczyt danych wektorowych jest bardziej skomplikowany i dobranie się do struktury danych wymaga przejścia przez kilka poziomów co przy bardzo dużej ilości danych powoduje opóźnienia. 
+
+
+## Ale skąd te dane ?
+
+W podanych przykładach korzystaliśmy z danych rastrowych i wektorowych które były dołączone jako przykładowe dane do testowania. Pisanie własnej aplikacji wymaga od nas jednak rzeczywistych danych dostosowanych do naszych potrzeb. Oto kilka źródeł z których możemy pobierać bezpłatnie potrzebne nam dane:
+
+* Centralny Ośrodek Dokumentacji Geodezyjnej i Kartograficznej [3]
+* Centralna Baza Danych Geologicznych [4]
+* Geoportal 2 [5]
+* OpenStreetMap [6]
+* USGS [7]
+* ESA/Sentinel [8]
 
 
 ## Źródła
 * [1] Strona GDAL z listą wszystkich operacji http://www.gdal.org/gdal_utilities.html
 * [2] Instalacja GDAL/OGR http://www.gis.usu.edu/~chrisg/python/2009/install.html
+* [3] Centralny Ośrodek Dokumentacji Geodezyjnej i Kartograficznej http://www.codgik.gov.pl/index.php/darmowe-dane.html
+* [4] Centralna Baza Danych Geologicznych http://baza.pgi.gov.pl/
+* [5] Geoportal http://www.geoportal.gov.pl/web/guest/DOCHK
+* [6] OpenStreetMap http://download.geofabrik.de/
+* [7] USGS http://earthexplorer.usgs.gov/
+* [8] ESA/Sentinel https://scihub.copernicus.eu/dhus/#/home
