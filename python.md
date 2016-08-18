@@ -19,3 +19,9 @@ Do takich danych niewątpliwie należą dane przestrzenne. Przechowują one info
 
 ## Python i dane przestrzenne
 Znaczna część aplikacji wykorzystujących dane przestrzenne napisana została w języku Python. Taki wybór podyktowany został możliwościami jakie daje ten język programowania. Po pierwsze pozwala korzystać za darmo praktycznie ze wszystkich bibliotek związanych z danymi przestrzennymi w szczególności z *GDAL/OGR*. Dodatkowo ułatwia prace na danych rastrowych dzięki bibliotece *numpy*. Graficzna biblioteka *PyQt* pozwala budować interfejsy graficzne, które mogą być dołączane jako nakładki do istniejących już aplikacji przestrzennych (np. QGis) i przenoszone między systemami operacyjnymi bez potrzeby modyfikacji ich kodu. 
+
+## GDAL/OGR
+GDAL (*Geospatial Data Abstraction Library*) jest biblioteką rozwijaną przez fundację *OSGEO* jako wolne oprogramowanie służącą do operacji na danych rastrowych. Zawiera w sobie również bibliotekę OGR (*Simple Features Library*) służącą do danych wektorowych. Obecnie obsługuje około 100 formatów danych rastrowych oraz 50 wektorowych. Obie biblioteki napisane zostały w języku C++ ale posiadają bindingi dla innych języków w tym dla Pythona. Istotną rzeczą jest że GDAL jest tak naprawdę zbiorem odrębnych programów tzw. *utility programs*, które możemy wywołać z linii komend. Wszystkie dostępne operacje znajdują się na [stronie biblioteki][1] 
+
+## Źródła
+* [1] Strona GDAL z listą wszystkich funkcji http://www.gdal.org/gdal_utilities.html
