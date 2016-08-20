@@ -24,12 +24,12 @@ GDAL (*Geospatial Data Abstraction Library*) jest biblioteką rozwijaną przez f
 
 ## Pierwsza aplikacja z użyciem GDAL/OGR
 
-Aby rozpocząć przygodę z GDAL pierwszym krokiem jaki należy wykonać jest sprawdzenie czy nie posiadamy zainstalowanej wersji GDAL. Oczywiście nasuwa się nam pytanie – dlaczego mam sprawdzać, skoro nigdy go nie instalowałem.  Warto jednak wiedzieć, że GDAL z racji swojej dużej użyteczności i popularności jest często instalowany razem z innymi programami (Google Earth, QGis, ArcGIS). Dla tych którzy jednak nie posiadają GDAL odsyłam na stronę [2], na której krok po kroku wytłumaczone zostało jak zainstalować bibliotekę różnymi metodami. 
+Aby rozpocząć przygodę z GDAL pierwszym krokiem jaki należy wykonać jest sprawdzenie czy posiadamy zainstalowaną bibliotekę. GDAL nie jest dołączany do standardowej biblioteki modułów Pythona. Warto jednak przed jego instalacją sprawdzić czy nie posiadamy już zainstalowanej werjsi gdyż GDAL z racji swojej dużej użyteczności i popularności jest często instalowany razem z innymi programami (Google Earth, QGis, ArcGIS). Dla tych którzy jednak nie posiadają GDAL odsyłam na stronę [2], na której krok po kroku wytłumaczone zostało jak zainstalować bibliotekę na różnych systemach. 
 
 Zacznijmy od najprostszego przykładu prezentującego w jaki sposób następuje odczyt danych rastrowych.
 _KOD_
 
-Z modułu GDAL należy wywołać metodę *Open* ze ścieżką dostępu jako parametrem (najlepiej w postaci bezwzględnej). Metoda zwraca całego rastra (*Dataset*) w przypadku prawidłowego odczytania rastra. Mając wczytanego rastra pierwszą rzeczą, której możemy dokonać jest sprawdzenie takich wartości jak ilość kanałów (*RasterCount*), ilość wierszy (*RasterXSize*), ilość kolumn (*RasterYSize*), z których składa się raster. Możemy również sprawdzić georeferencję rastra czyli jego położenie w przestrzeni. 
+Z modułu GDAL należy wywołać metodę `Open` ze ścieżką dostępu jako parametrem (najlepiej w postaci bezwzględnej). Metoda zwraca całego rastra (*Dataset*) w przypadku prawidłowego odczytania rastra. Mając wczytanego rastra pierwszą rzeczą, której możemy dokonać jest sprawdzenie takich wartości jak ilość kanałów `RasterCount`, ilość wierszy `RasterXSize`, ilość kolumn `RasterYSize`, z których składa się raster. Możemy również sprawdzić georeferencję rastra czyli jego położenie w przestrzeni. 
 
 _KOD_
 
