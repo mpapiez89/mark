@@ -30,7 +30,7 @@ Aby rozpocząć przygodę z GDAL pierwszym krokiem jaki należy wykonać jest sp
     try:
       from osgeo import ogr, gdal
     except:
-      sys.exit('BŁĄD: Nie można odnaleźć GDAL/OGR.')
+      sys.exit('Nie można odnaleźć GDAL/OGR!')
 
 GDAL nie jest dołączany do standardowej biblioteki modułów Pythona. Warto jednak przed jego instalacją sprawdzić czy nie posiadamy już zainstalowanej werjsi gdyż GDAL z racji swojej dużej użyteczności i popularności jest często instalowany razem z innymi programami (Google Earth, QGis, ArcGIS). Dla tych którzy jednak nie posiadają GDAL odsyłam na stronę [2], na której krok po kroku wytłumaczone zostało jak zainstalować bibliotekę na różnych systemach. 
 
@@ -39,12 +39,12 @@ Zacznijmy od najprostszego przykładu prezentującego w jaki sposób następuje 
     from osgeo import ogr, gdal
     dataset = gdal.Open('test.tif', gdal.GA_ReadOnly)
     if dataset is None:
-        print 'Nie można otworzyć pliku'
+        print 'Nie można otworzyć pliku!'
         sys.exit(1)
 
 Z modułu GDAL należy wywołać metodę `Open` ze ścieżką dostępu jako parametrem (najlepiej w postaci bezwzględnej). Drugi parametr określa sposób otwarcia pliku. Domyślnie parametr ten ustawiony jest na odczyt rastra dlatego `gdal.GA_ReadOnly` może być pominięte.  Metoda zwraca całego rastra w przypadku prawidłowego odczytania rastra. Mając wczytanego rastra możemy dokonać sprawdzenia takich wartości jak ilość kanałów `RasterCount`, ilość wierszy `RasterXSize`, ilość kolumn `RasterYSize`, z których składa się raster. 
 
-    dataset = gdal.Open( "test.tif" )
+    dataset = gdal.Open('test.tif')
     
     bands = dataset.RasterCount
     cols = dataset.RasterXSize
@@ -57,24 +57,32 @@ Z modułu GDAL należy wywołać metodę `Open` ze ścieżką dostępu jako para
 Więcej niż jeden kanał w rastrze oznacza, że dane z tego samego położenia zostały zarejestrowane w różnych zakresach promieniowania. Możemy również sprawdzić podstawowe statystyki dotyczące każdego kanału. 
 
     for band in range(bands):
-        print "Kanał nr.: ", band
+        print 'Kanał nr.: ', band
         srcband = dataset.GetRasterBand(band)
         if srcband:
             stats = srcband.GetStatistics(True, True)
             print 'Minimum: %.3f'%stats[0]
             print 'Maximum: %.3f'%stats[1]
 
-Teraz spróbujmy otworzyć plik wektorowy. Przed otwarciem pliku ustawiamy sterownik (*Driver*), który jest obiektem odpowiadającym za poprawne wczytanie odpowiedniego typu danych. Ważne jest również by przy pierwszym otwarciu pliku ustawić prawa dla sterownika, w zależności od tego czy chcemy odczytywać czy zapisywać dane. Domyślnym prawem jest prawo do odczytu oznaczane zerem. Jedynka oznacza możliwość modyfikacji pliku i jego ponownego zapisu. Nie wszystkie wspierane przez OGR formaty posiadają opcję zapisu. Metoda Open zwraca obiekt zwany źródłem danych (*DataSource*).
+Teraz spróbujmy otworzyć plik wektorowy. Przed otwarciem pliku ustawiamy sterownik `Driver`, który jest obiektem odpowiadającym za poprawne wczytanie odpowiedniego typu danych. Ważne jest również by przy pierwszym otwarciu pliku ustawić prawa dla sterownika, w zależności od tego czy chcemy odczytywać czy zapisywać dane. Domyślnym prawem jest prawo do odczytu oznaczane zerem. Jedynka oznacza możliwość modyfikacji pliku i jego ponownego zapisu. Nie wszystkie wspierane przez OGR formaty posiadają opcję zapisu. Metoda Open zwraca obiekt zwany źródłem danych:
 
-_KOD_
+    from osgeo import ogr
+    driver = ogr.GetDriverByName('ESRI Shapefile')
+    datasource = driver.Open('test.shp', 0)
 
-Źródło danych składa się z warstw, które pobieramy za pomocą funkcji *GetLayer*. Najbardziej podstawowy format wektorowy Shapefile posiada tylko jedną warstwę, dlatego użycie indeksu jest opcjonalne. Przy pozostałych formatach ustawienie indeksu jest obowiązkowe. W celu sprawdzenia ilości warstw możemy wywołać funkcję *GetLayerCount*. 
+Źródło danych składa się z warstw, które pobieramy za pomocą funkcji `GetLayer`. Najbardziej podstawowy format wektorowy Shapefile posiada tylko jedną warstwę, dlatego użycie indeksu jest opcjonalne. Przy pozostałych formatach ustawienie indeksu jest obowiązkowe. W celu sprawdzenia ilości warstw możemy wywołać następująca funkcję: 
+    
+    numLayer = datasource.GetLayerCount()
 
-_KOD_
+Po pobraniu warstwy jesteśmy w stanie odczytać podstawowe informacje o obiektach w niej zawartej. Możemy sprawdzić z ilu obiektów składa się warstwa `GetFeatureCount`. Najważniejsze jednak jest to, że możemy pobrać każdy obiekt po to by móc odczytać jego geometrię, nazwę oraz wartości jakie w sobie przechowuje:
 
-Po pobraniu warstwy jesteśmy w stanie odczytać podstawowe informacje o obiektach w niej zawartej. Możemy sprawdzić z ilu obiektów składa się warstwa (*GetFeatureCount*) oraz sprawdzić zasięg warstwy podany we współrzędnych geograficznych (GetExtent). Najważniejsze jednak jest to, że możemy pobrać każdy obiekt po to by móc odczytać jego geometrię, nazwę oraz wartości jakie w sobie przechowuje. 
+    for feat in range(numLayer):
+        layer = datasource.GetLayerByIndex(feat)
+        print 'Nazwa warstwy: ', layer.GetName()
+        numfeat = layer.GetFeatureCount()
+        print 'Ilość obiektów w warstwie:  ', numfeat
+        
 Jak widzimy odczyt danych wektorowych jest bardziej skomplikowany i dobranie się do struktury danych wymaga przejścia przez kilka poziomów co przy bardzo dużej ilości danych powoduje opóźnienia. 
-
 
 ## Ale skąd te dane ?
 
