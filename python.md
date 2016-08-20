@@ -114,7 +114,7 @@ Wspomniane *GDAL/OGR* nie jest jedyną biblioteką wspomagającą przetwarzanie 
 
 ## Podsumowanie
 
-Wybór odpowiedniej biblioteki jest w znacznym stopniu zależny od stopnia zaawansowania operacji, które będą wykonywane w projektowanej aplikacji. Pod tym względem niewątpliwie liderem jest GDAL/OGR, który dostarcza najwięcej gotowych funkcjonalności. Niemniej GDAL/OGR może być problematyczny ze względu na fakt, że jego struktura oparta jest na C++. Fiona i Shapely opierają się na standardach Pythona m.in. korzystając z plików, słowników czy iteratorów co jest znacznie wygodniejsze poprzez zmniejszenie ilości pisanego kodu.
+Wybór odpowiedniej biblioteki jest w znacznym stopniu zależny od stopnia zaawansowania operacji, które będą wykonywane w projektowanej aplikacji. Pod tym względem niewątpliwie liderem jest GDAL/OGR, który dostarcza najwięcej gotowych funkcjonalności. Niemniej GDAL/OGR może być problematyczny ze względu na fakt, że jego struktura oparta jest na C++. Fiona i Shapely opierają się na standardach Pythona m.in. korzystając z plików, słowników czy iteratorów co przyspiesza pracę i niweluje prawdopodobieństwo popełnienia błędu.
 
 ## Źródła
 * [1] Strona GDAL z listą wszystkich operacji http://www.gdal.org/gdal_utilities.html
