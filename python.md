@@ -26,11 +26,11 @@ GDAL (*Geospatial Data Abstraction Library*) jest biblioteką rozwijaną przez f
 
 Aby rozpocząć przygodę z GDAL pierwszym krokiem jaki należy wykonać jest sprawdzenie czy posiadamy zainstalowaną bibliotekę. GDAL nie jest dołączany do standardowej biblioteki modułów Pythona. Warto jednak przed jego instalacją sprawdzić czy nie posiadamy już zainstalowanej werjsi gdyż GDAL z racji swojej dużej użyteczności i popularności jest często instalowany razem z innymi programami (Google Earth, QGis, ArcGIS). Dla tych którzy jednak nie posiadają GDAL odsyłam na stronę [2], na której krok po kroku wytłumaczone zostało jak zainstalować bibliotekę na różnych systemach. 
 
-  import sys
-  try:
-    from osgeo import ogr, osr, gdal
-  except:
-    sys.exit('ERROR: cannot find GDAL/OGR modules')
+    import sys
+    try:
+      from osgeo import ogr, osr, gdal
+    except:
+      sys.exit('ERROR: cannot find GDAL/OGR modules')
 
 Zacznijmy od najprostszego przykładu prezentującego w jaki sposób następuje odczyt danych rastrowych.
 _KOD_
