@@ -24,20 +24,41 @@ GDAL (*Geospatial Data Abstraction Library*) jest biblioteką rozwijaną przez f
 
 ## Pierwsza aplikacja z użyciem GDAL/OGR
 
-Aby rozpocząć przygodę z GDAL pierwszym krokiem jaki należy wykonać jest sprawdzenie czy posiadamy zainstalowaną bibliotekę. GDAL nie jest dołączany do standardowej biblioteki modułów Pythona. Warto jednak przed jego instalacją sprawdzić czy nie posiadamy już zainstalowanej werjsi gdyż GDAL z racji swojej dużej użyteczności i popularności jest często instalowany razem z innymi programami (Google Earth, QGis, ArcGIS). Dla tych którzy jednak nie posiadają GDAL odsyłam na stronę [2], na której krok po kroku wytłumaczone zostało jak zainstalować bibliotekę na różnych systemach. 
+Aby rozpocząć przygodę z GDAL pierwszym krokiem jaki należy wykonać jest sprawdzenie czy posiadamy zainstalowaną bibliotekę: 
 
     import sys
     try:
-      from osgeo import ogr, osr, gdal
+      from osgeo import ogr, gdal
     except:
-      sys.exit('ERROR: cannot find GDAL/OGR modules')
+      sys.exit('BŁĄD: Nie można odnaleźć GDAL/OGR.')
 
-Zacznijmy od najprostszego przykładu prezentującego w jaki sposób następuje odczyt danych rastrowych.
-_KOD_
+GDAL nie jest dołączany do standardowej biblioteki modułów Pythona. Warto jednak przed jego instalacją sprawdzić czy nie posiadamy już zainstalowanej werjsi gdyż GDAL z racji swojej dużej użyteczności i popularności jest często instalowany razem z innymi programami (Google Earth, QGis, ArcGIS). Dla tych którzy jednak nie posiadają GDAL odsyłam na stronę [2], na której krok po kroku wytłumaczone zostało jak zainstalować bibliotekę na różnych systemach. 
 
-Z modułu GDAL należy wywołać metodę `Open` ze ścieżką dostępu jako parametrem (najlepiej w postaci bezwzględnej). Metoda zwraca całego rastra (*Dataset*) w przypadku prawidłowego odczytania rastra. Mając wczytanego rastra pierwszą rzeczą, której możemy dokonać jest sprawdzenie takich wartości jak ilość kanałów `RasterCount`, ilość wierszy `RasterXSize`, ilość kolumn `RasterYSize`, z których składa się raster. Możemy również sprawdzić georeferencję rastra czyli jego położenie w przestrzeni. 
+Zacznijmy od najprostszego przykładu prezentującego w jaki sposób następuje odczyt danych rastrowych: 
 
-_KOD_
+    from osgeo import ogr, gdal
+    dataset = gdal.Open('test.tif')
+    if dataset is None:
+        print 'Nie można otworzyć pliku'
+        sys.exit(1)
+
+Z modułu GDAL należy wywołać metodę `Open` ze ścieżką dostępu jako parametrem (najlepiej w postaci bezwzględnej). Metoda zwraca całego rastra w przypadku prawidłowego odczytania rastra. Mając wczytanego rastra możemy dokonać sprawdzenia takich wartości jak ilość kanałów `RasterCount`, ilość wierszy `RasterXSize`, ilość kolumn `RasterYSize`, z których składa się raster. Możemy również sprawdzić podstawowe statystyki dotyczą. 
+
+    import gdal
+    dataset = gdal.Open( "test.tif" )
+    
+    bands = dataset.RasterCount
+    cols = dataset.RasterXSize
+    rows = dataset.RasterYSize
+
+    print 'Ilość kanałów: ', bands
+    print 'X: ', cols
+    print 'Y: ', rows
+    
+    for band in range(datasource.RasterCount):
+        print "Kanał nr.: ", band
+        srcband = datasource.GetRasterBand(band)
+
 
 Teraz spróbujmy otworzyć plik wektorowy. Przed otwarciem pliku ustawiamy sterownik (*Driver*), który jest obiektem odpowiadającym za poprawne wczytanie odpowiedniego typu danych. Ważne jest również by przy pierwszym otwarciu pliku ustawić prawa dla sterownika, w zależności od tego czy chcemy odczytywać czy zapisywać dane. Domyślnym prawem jest prawo do odczytu oznaczane zerem. Jedynka oznacza możliwość modyfikacji pliku i jego ponownego zapisu. Nie wszystkie wspierane przez OGR formaty posiadają opcję zapisu. Metoda Open zwraca obiekt zwany źródłem danych (*DataSource*).
 
