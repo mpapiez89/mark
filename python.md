@@ -37,14 +37,13 @@ GDAL nie jest dołączany do standardowej biblioteki modułów Pythona. Warto je
 Zacznijmy od najprostszego przykładu prezentującego w jaki sposób następuje odczyt danych rastrowych: 
 
     from osgeo import ogr, gdal
-    dataset = gdal.Open('test.tif')
+    dataset = gdal.Open('test.tif', gdal.GA_ReadOnly)
     if dataset is None:
         print 'Nie można otworzyć pliku'
         sys.exit(1)
 
-Z modułu GDAL należy wywołać metodę `Open` ze ścieżką dostępu jako parametrem (najlepiej w postaci bezwzględnej). Metoda zwraca całego rastra w przypadku prawidłowego odczytania rastra. Mając wczytanego rastra możemy dokonać sprawdzenia takich wartości jak ilość kanałów `RasterCount`, ilość wierszy `RasterXSize`, ilość kolumn `RasterYSize`, z których składa się raster. Możemy również sprawdzić podstawowe statystyki dotyczą. 
+Z modułu GDAL należy wywołać metodę `Open` ze ścieżką dostępu jako parametrem (najlepiej w postaci bezwzględnej). Drugi parametr określa sposób otwarcia pliku. Domyślnie parametr ten ustawiony jest na odczyt rastra dlatego `gdal.GA_ReadOnly` może być pominięte.  Metoda zwraca całego rastra w przypadku prawidłowego odczytania rastra. Mając wczytanego rastra możemy dokonać sprawdzenia takich wartości jak ilość kanałów `RasterCount`, ilość wierszy `RasterXSize`, ilość kolumn `RasterYSize`, z których składa się raster. 
 
-    import gdal
     dataset = gdal.Open( "test.tif" )
     
     bands = dataset.RasterCount
@@ -55,10 +54,15 @@ Z modułu GDAL należy wywołać metodę `Open` ze ścieżką dostępu jako para
     print 'X: ', cols
     print 'Y: ', rows
     
-    for band in range(datasource.RasterCount):
-        print "Kanał nr.: ", band
-        srcband = datasource.GetRasterBand(band)
+Więcej niż jeden kanał w rastrze oznacza, że dane z tego samego położenia zostały zarejestrowane w różnych zakresach promieniowania. Możemy również sprawdzić podstawowe statystyki dotyczące każdego kanału. 
 
+    for band in range(bands):
+        print "Kanał nr.: ", band
+        srcband = dataset.GetRasterBand(band)
+        if srcband:
+            stats = srcband.GetStatistics(True, True)
+            print 'Minimum: %.3f'%stats[0]
+            print 'Maximum: %.3f'%stats[1]
 
 Teraz spróbujmy otworzyć plik wektorowy. Przed otwarciem pliku ustawiamy sterownik (*Driver*), który jest obiektem odpowiadającym za poprawne wczytanie odpowiedniego typu danych. Ważne jest również by przy pierwszym otwarciu pliku ustawić prawa dla sterownika, w zależności od tego czy chcemy odczytywać czy zapisywać dane. Domyślnym prawem jest prawo do odczytu oznaczane zerem. Jedynka oznacza możliwość modyfikacji pliku i jego ponownego zapisu. Nie wszystkie wspierane przez OGR formaty posiadają opcję zapisu. Metoda Open zwraca obiekt zwany źródłem danych (*DataSource*).
 
