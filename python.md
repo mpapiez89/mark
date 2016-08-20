@@ -101,12 +101,21 @@ Odczyt danych i ich analiza to jednak nie wszystko. Aby nasza aplikacja miała m
 
 ## Pozostałe biblioteki przestrzenne
 
-Wspomniane *GDAL/OGR* nie jest jedyną biblioteką wspomagającą przetwarzanie danych przestrzennych. Obecnie dostępnych darmowo mamy kilkanaście bibliotek, szczególnie do manipulacji danymi wektorowymi. Z nich najbardziej znane to Fiona i Shapely. Obie są typowymi bibliotekami Pythona, które pozwalają na odczyt danych wektorowych, tworzenie nowych geometrii, sprawdzanie poprawności geometrii oraz wszelkiego rodzaju operacje geometryczne. Wybór odpowiedniej biblioteki jest w znacznym stopniu zależny od stopnia zaawansowania operacji, które będą wykonywane w pisanej aplikacji. Pod tym względem niewątpliwie liderem jest GDAL/OGR, który dostarcza najwięcej gotowych funkcjonalności. Niemniej GDAL/OGR może być problematyczny ze względu na fakt, że jego struktura oparta jest na C++. Fiona i Shapely opierają się na standardach Pythona m.in. korzystając z plików, słowników czy iteratorów co jest znacznie wygodniejsze poprzez zmniejszenie ilości pisanego kodu. Dla porównania sprawdzimy ilość obiektów w wektorze, za pomocą biblioteki Fiona:
+Wspomniane *GDAL/OGR* nie jest jedyną biblioteką wspomagającą przetwarzanie danych przestrzennych. Obecnie dostępnych darmowo mamy kilkanaście bibliotek, szczególnie do manipulacji danymi wektorowymi. Z nich najbardziej znane to Fiona i Shapely. Obie są typowymi bibliotekami Pythona, które pozwalają na odczyt danych wektorowych, tworzenie nowych geometrii, sprawdzanie poprawności geometrii oraz wszelkiego rodzaju operacje geometryczne. Prosty odczyt danych wektorowych za pomocą biblioteki Fiona:
 
     import fiona
     data = fiona.open('test.shp')
-    print 'Ilość obiektów w warstwie: ', len(f)
+    print 'Ilość obiektów w warstwie: ', len(data)
     
+    rec = next(data)
+    print rec.keys()
+    print rec['geometry']['type']
+    print rec['properties']
+
+## Podsumowanie
+
+Wybór odpowiedniej biblioteki jest w znacznym stopniu zależny od stopnia zaawansowania operacji, które będą wykonywane w pisanej aplikacji. Pod tym względem niewątpliwie liderem jest GDAL/OGR, który dostarcza najwięcej gotowych funkcjonalności. Niemniej GDAL/OGR może być problematyczny ze względu na fakt, że jego struktura oparta jest na C++. Fiona i Shapely opierają się na standardach Pythona m.in. korzystając z plików, słowników czy iteratorów co jest znacznie wygodniejsze poprzez zmniejszenie ilości pisanego kodu.
+
 ## Źródła
 * [1] Strona GDAL z listą wszystkich operacji http://www.gdal.org/gdal_utilities.html
 * [2] Instalacja GDAL/OGR http://www.gis.usu.edu/~chrisg/python/2009/install.html
